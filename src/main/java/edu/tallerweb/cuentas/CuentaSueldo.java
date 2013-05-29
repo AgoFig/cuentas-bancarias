@@ -1,35 +1,31 @@
 package edu.tallerweb.cuentas;
 
-/**
- * Es el tipo de cuenta más simple, ya que se rige por la premisa
- * de que en tanto y en cuanto se tenga tanto o más dinero en
- * cuenta del que se quiere extraer, la operación se debe efectuar
- * correctamente.
- */
-public class CuentaSueldo {
+public class CuentaSueldo extends AbstractCuenta {
 
-	/**
-	 * No hay reglas adicionales para el depósito
-	 * @param monto a depositar
-	 */
+	private Double saldo;
+
+	public CuentaSueldo() {
+		this.saldo = 0.0;
+	}
+
 	public void depositar(final Double monto) {
-		throw new RuntimeException("No implementado aún");
+		// throw new RuntimeException("No implementado aún");
+		this.saldo += monto;
 	}
 
-	/**
-	 * No hay reglas adicionales para la extracción
-	 * @param monto a extraer
-	 */
 	public void extraer(final Double monto) {
-		throw new RuntimeException("No implementado aún");
+
+		if (monto < this.saldo) {
+			this.saldo -= monto;
+		} else {
+			throw new CuentaBancariaException(
+					"Esta intentando retirar mas dinero del que dispone en su cuenta.");
+		}
 	}
 
-	/**
-	 * Permite saber el saldo de la cuenta
-	 * @return el saldo de la cuenta
-	 */
 	public Double getSaldo() {
-		throw new RuntimeException("No implementado aún");
+		// throw new RuntimeException("No implementado aún");
+		return this.saldo;
 	}
 
 }

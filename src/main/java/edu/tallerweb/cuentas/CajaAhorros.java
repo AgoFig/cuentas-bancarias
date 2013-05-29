@@ -1,35 +1,40 @@
 package edu.tallerweb.cuentas;
 
-/**
- * Similar a la CuentaSueldo, pero se pide que luego de la
- * quinta extracción de dinero se cobre un costo adicional
- * por extracción de $ 6
- */
-public class CajaAhorros {
+public class CajaAhorros extends AbstractCuenta {
 
-	/**
-	 * No hay reglas adicionales para el depósito
-	 * @param monto a depositar
-	 */
-	public void depositar(final Double monto) {
-		throw new RuntimeException("No implementado aún");
+	private Double saldo;
+	private Integer contador;
+
+	public CajaAhorros() {
+		this.saldo = 0.0;
+		this.contador = 0;
 	}
 
-	/**
-	 * Se cobran $6 adicionales por cada extracción luego de
-	 * la quinta.
-	 * @param monto a extraer
-	 */
+	public void depositar(final Double monto) {
+		this.saldo += monto;
+	}
+
 	public void extraer(final Double monto) {
-		throw new RuntimeException("No implementado aún");
+		this.contador++;
+		if (this.saldo > monto) {
+			this.saldo -= monto;
+			if (contador > 5) {
+				this.saldo -= 6;
+			}
+		} else {
+			throw new CuentaBancariaException(
+					"Esta intentando extraer mas dinero del que dispone en su Caja de Ahorros");
+		}
+
 	}
 
 	/**
 	 * Permite saber el saldo de la cuenta
+	 * 
 	 * @return el saldo de la cuenta
 	 */
 	public Double getSaldo() {
-		throw new RuntimeException("No implementado aún");
+		return this.saldo;
 	}
 
 }
