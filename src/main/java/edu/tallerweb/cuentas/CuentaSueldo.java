@@ -9,8 +9,12 @@ public class CuentaSueldo extends AbstractCuenta {
 	}
 
 	public void depositar(final Double monto) {
-		// throw new RuntimeException("No implementado aún");
-		this.saldo += monto;
+		if (monto > 0.0) {
+			this.saldo += monto;
+		} else {
+			throw new CuentaBancariaException(
+					"Esta intentando depositar un saldo negativo.");
+		}
 	}
 
 	public void extraer(final Double monto) {
@@ -18,8 +22,13 @@ public class CuentaSueldo extends AbstractCuenta {
 		if (monto < this.saldo) {
 			this.saldo -= monto;
 		} else {
-			throw new CuentaBancariaException(
-					"Esta intentando retirar mas dinero del que dispone en su cuenta.");
+			if (monto < 0.0) {
+				throw new CuentaBancariaException(
+						"Esta intentando retirar un monto negativo.");
+			} else {
+				throw new CuentaBancariaException(
+						"Esta intentando retirar mas dinero del que dispone en su cuenta.");
+			}
 		}
 	}
 
