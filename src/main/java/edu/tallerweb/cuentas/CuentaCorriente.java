@@ -5,7 +5,7 @@ public class CuentaCorriente extends AbstractCuenta {
 	private Double saldo;
 	private Double descubiertoMaximo;
 	private Double descubiertoUtilizado;
-	private Double recargo;
+	private Double recargo = 0.05;
 
 	public CuentaCorriente(final Double descubiertoTotal) {
 		this.saldo = 0.0;
@@ -25,20 +25,23 @@ public class CuentaCorriente extends AbstractCuenta {
 	}
 
 	public void extraer(final Double monto) {
-		Double totalExtraccion;
 		Double totalDisponible;
-
-		totalExtraccion = monto + (monto * recargo);
+		Double usoDescubierto;
 
 		totalDisponible = this.descubiertoMaximo + this.saldo;
-		if (monto <= saldo || monto >= 0.0) {
+		if (monto <= saldo) {
 			this.saldo -= monto;
 		} else {
-			if (monto <= totalDisponible) {
-				this.saldo -= totalExtraccion;
+			if (monto <= totalDisponible) {		
+
+				usoDescubierto = ((monto - this.saldo) + ((monto - this.saldo)
+						* this.recargo));
+				this.descubiertoUtilizado = usoDescubierto;
+				this.saldo = 0.0;
+
 			} else {
 				throw new CuentaBancariaException(
-						"Esta intentando extraer mas alla del descubierto autorizado o un saldo negativo");
+						"Esta intentando extraer mas alla del descubierto autorizado");
 			}
 		}
 

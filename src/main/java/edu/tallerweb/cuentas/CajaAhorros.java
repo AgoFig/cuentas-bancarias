@@ -10,6 +10,8 @@ public class CajaAhorros extends AbstractCuenta {
 	public CajaAhorros() {
 		this.saldo = 0.0;
 		this.contador = 0;
+		this.limiteSinRecargo = 5;
+		this.recargo = 6;
 	}
 
 	public void depositar(final Double monto) {
