@@ -2,14 +2,14 @@ package edu.tallerweb.cuentas;
 
 /**
  * @author Ago
- * 
+ *
  */
 public class CuentaCorriente extends AbstractCuenta {
 
 	private Double saldo;
 	private Double descubiertoMaximo;
 	private Double descubiertoDisponible;
-	private static final Double recargo = 0.05;
+	private final Double recargo = 0.05;
 
 	public CuentaCorriente(final Double descubiertoTotal) {
 		this.saldo = 0.0;

@@ -8,8 +8,8 @@ public class CajaAhorros extends AbstractCuenta {
 
 	private Double saldo = 0.0;
 	private Integer contador = 0;
-	private static final Integer limiteSinRecargo = 5;
-	private static final Integer recargo = 6;
+	private final Integer limiteSinRecargo = 5;
+	private final Integer recargo = 6;
 
 	public void depositar(final Double monto) {
 		if (monto > 0.0) {
