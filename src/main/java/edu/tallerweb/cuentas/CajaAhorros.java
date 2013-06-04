@@ -1,18 +1,15 @@
 package edu.tallerweb.cuentas;
 
+/**
+ * @author Ago
+ * 
+ */
 public class CajaAhorros extends AbstractCuenta {
 
-	private Double saldo;
-	private Integer contador;
-	private Integer limiteSinRecargo;
-	private Integer recargo;
-
-	public CajaAhorros() {
-		this.saldo = 0.0;
-		this.contador = 0;
-		this.limiteSinRecargo = 5;
-		this.recargo = 6;
-	}
+	private Double saldo = 0.0;
+	private Integer contador = 0;
+	private Integer limiteSinRecargo = 5;
+	private Integer recargo = 6;
 
 	public void depositar(final Double monto) {
 		if (monto > 0.0) {
@@ -38,7 +35,7 @@ public class CajaAhorros extends AbstractCuenta {
 				}
 			} else {
 				throw new CuentaBancariaException(
-						"Esta intentando extraer mas dinero del que dispone en su Caja de Ahorros");
+						"Esta intentando extraer mas dinero del que dispone.");
 			}
 		}
 	}

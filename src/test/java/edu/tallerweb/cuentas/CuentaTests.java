@@ -3,6 +3,10 @@ package edu.tallerweb.cuentas;
 import org.junit.Assert;
 import org.junit.Test;
 
+/**
+ * @author Ago
+ * 
+ */
 public class CuentaTests {
 
 	@Test
@@ -19,6 +23,13 @@ public class CuentaTests {
 		Assert.assertEquals(
 				"al extraer $ 500.0 de una cuenta con $ 4000.0 se obtienen $ 3500.0",
 				3500.0, cuenta.getSaldo(), 0.0);
+	}
+
+	@Test(expected = CuentaBancariaException.class)
+	public void queCuentaSueldoNoPermitaExtraerEnNegativo() {
+		CuentaSueldo cuenta = new CuentaSueldo();
+		cuenta.depositar(2000.0);
+		cuenta.extraer(-1000.0);
 	}
 
 	@Test(expected = CuentaBancariaException.class)
@@ -93,25 +104,33 @@ public class CuentaTests {
 	@Test
 	public void queSeObtengaElDescubiertoDeCuentaCorriente() {
 		CuentaCorriente cuenta = new CuentaCorriente(1500.0);
-		
+
 		cuenta.depositar(4000.0);
-		
+
 		cuenta.extraer(4500.0);
-		
+
 		Double descubierto;
 		descubierto = cuenta.getDescubierto();
 		Assert.assertEquals(
-				"al extraer $ 4500.0 de una cuenta con $ 4000.0 se obtienen un descubierto utilizado de $ 525.0",
-				525.0, descubierto, 0.0);
+				"al extraer $ 4500.0 de una cuenta con $ 4000.0 se obtienen un descubierto disponible de $ 975.0",
+				975.0, descubierto, 0.0);
 	}
-	
-	
+
 	@Test(expected = CuentaBancariaException.class)
 	public void queNoSePuedaRetirarMasQueElDescubiertoDisponibleMasElSaldoException() {
 		CuentaCorriente cuenta = new CuentaCorriente(2000.0);
 		cuenta.depositar(3500.0);
 
 		cuenta.extraer(7000.0);
+
+	}
+
+	@Test(expected = CuentaBancariaException.class)
+	public void queNoSePuedaRetirarUnaCantidadNegativaEnUnaCuentaCorriente() {
+		CuentaCorriente cuenta = new CuentaCorriente(2000.0);
+		cuenta.depositar(3500.0);
+
+		cuenta.extraer(-7000.0);
 
 	}
 

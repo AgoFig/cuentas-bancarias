@@ -1,21 +1,30 @@
 package edu.tallerweb.cuentas;
 
+/**
+ * @author Ago
+ * 
+ */
 public class CuentaCorriente extends AbstractCuenta {
 
 	private Double saldo;
 	private Double descubiertoMaximo;
-	private Double descubiertoUtilizado;
-	private Double recargo = 0.05;
+	private Double descubiertoDisponible;
+	private Double recargo = (Double) 0.05;
 
 	public CuentaCorriente(final Double descubiertoTotal) {
 		this.saldo = 0.0;
 		this.descubiertoMaximo = descubiertoTotal;
-		this.descubiertoUtilizado = 0.0;
+		this.descubiertoDisponible = descubiertoMaximo;
 	}
 
 	public void depositar(final Double monto) {
 
-		if (monto > this.descubiertoUtilizado) {
+		Double descubiertoUtilizado;
+
+		descubiertoUtilizado = this.descubiertoMaximo
+				- this.descubiertoDisponible;
+
+		if (monto > descubiertoUtilizado) {
 			this.saldo += monto;
 		} else {
 			throw new RuntimeException(
@@ -26,17 +35,25 @@ public class CuentaCorriente extends AbstractCuenta {
 
 	public void extraer(final Double monto) {
 		Double totalDisponible;
-		Double usoDescubierto;
+		Double descubiertoConRecargo;
+		Double descubiertoUsado;
 
 		totalDisponible = this.descubiertoMaximo + this.saldo;
+
+		if (monto < 0) {
+			throw new CuentaBancariaException(
+					"Esta intentando extraer mas alla del descubierto autorizado");
+		}
+
 		if (monto <= saldo) {
 			this.saldo -= monto;
 		} else {
-			if (monto <= totalDisponible) {		
+			if (monto <= totalDisponible) {
 
-				usoDescubierto = ((monto - this.saldo) + ((monto - this.saldo)
-						* this.recargo));
-				this.descubiertoUtilizado = usoDescubierto;
+				descubiertoUsado = (monto - this.saldo);
+				descubiertoConRecargo = (descubiertoUsado + (descubiertoUsado * this.recargo));
+
+				this.descubiertoDisponible -= descubiertoConRecargo;
 				this.saldo = 0.0;
 
 			} else {
@@ -52,7 +69,7 @@ public class CuentaCorriente extends AbstractCuenta {
 	}
 
 	public Double getDescubierto() {
-		return this.descubiertoUtilizado;
+		return this.descubiertoDisponible;
 	}
 
 }
