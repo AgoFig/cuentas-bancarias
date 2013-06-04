@@ -116,6 +116,44 @@ public class CuentaTests {
 				975.0, descubierto, 0.0);
 	}
 
+	@Test
+	public void queAlDepositarSeReintegreElDescubierto() {
+		CuentaCorriente cuenta = new CuentaCorriente(1500.0);
+		cuenta.extraer(500.0);
+		cuenta.depositar(4000.0);
+
+		Double descubierto;
+		descubierto = cuenta.getDescubierto();
+		Assert.assertEquals(
+				"al extraer $ 500.0 de una cuenta y depositar $ 4000.0 se cubre el descubierto quedandonos con $ 1500.0 de descubierto disponible. ",
+				1500.0, descubierto, 0.0);
+		Assert.assertEquals(
+				"al extraer $ 500.0 de una cuenta y depositar $ 4000.0 se cubre el descubierto quedandonos con $ 3500.0 de saldo disponible. ",
+				3475.0, cuenta.getSaldo(), 0.0);
+	}
+
+	@Test
+	public void queAlDepositarSeReintegreParcialmenteElDescubierto() {
+		CuentaCorriente cuenta = new CuentaCorriente(1500.0);
+		cuenta.extraer(500.0);
+		cuenta.depositar(400.0);
+
+		Double descubierto;
+		descubierto = cuenta.getDescubierto();
+		Assert.assertEquals(
+				"al extraer $ 500.0 de una cuenta y depositar $ 400.0 se cubre el descubierto quedandonos con $ 13750.0 de descubierto disponible. ",
+				1375.0, descubierto, 0.0);
+		Assert.assertEquals(
+				"al extraer $ 500.0 de una cuenta y depositar $ 400.0 se cubre parcialmente el descubierto quedandonos con $ 0.0 de saldo disponible. ",
+				0.0, cuenta.getSaldo(), 0.0);
+	}
+
+	@Test(expected = CuentaBancariaException.class)
+	public void queNoSePuedeExtraerEnDescubiertoDeUnaCuentaCorrienteMasDelDisponibleConImpuestoException() {
+		CuentaCorriente cuenta = new CuentaCorriente(500.0);
+		cuenta.extraer(500.0);
+	}
+
 	@Test(expected = CuentaBancariaException.class)
 	public void queNoSePuedaRetirarMasQueElDescubiertoDisponibleMasElSaldoException() {
 		CuentaCorriente cuenta = new CuentaCorriente(2000.0);

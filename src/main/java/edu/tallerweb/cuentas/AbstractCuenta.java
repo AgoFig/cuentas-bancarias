@@ -2,7 +2,7 @@ package edu.tallerweb.cuentas;
 
 /**
  * @author Ago
- * 
+ *
  */
 public abstract class AbstractCuenta {
 
