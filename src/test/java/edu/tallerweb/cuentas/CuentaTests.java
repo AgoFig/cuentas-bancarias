@@ -151,7 +151,7 @@ public class CuentaTests {
 	@Test(expected = CuentaBancariaException.class)
 	public void queNoSePuedeExtraerEnDescubiertoDeUnaCuentaCorrienteMasDelDisponibleConImpuestoException() {
 		CuentaCorriente cuenta = new CuentaCorriente(500.0);
-		cuenta.extraer(500.0);
+		cuenta.extraer(499.0);
 	}
 
 	@Test(expected = CuentaBancariaException.class)

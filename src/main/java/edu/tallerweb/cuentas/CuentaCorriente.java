@@ -60,6 +60,11 @@ public class CuentaCorriente extends AbstractCuenta {
 				descubiertoUsado = (monto - this.saldo);
 				descubiertoConRecargo = (descubiertoUsado + (descubiertoUsado * recargo));
 
+				if (descubiertoConRecargo > this.descubiertoDisponible) {
+					throw new CuentaBancariaException(
+							"Esta intentando extraer mas alla del descubierto autorizado");
+				}
+
 				this.descubiertoDisponible -= descubiertoConRecargo;
 				this.saldo = 0.0;
 
